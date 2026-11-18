@@ -1,0 +1,1670 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Introducción al lenguaje Dart mediante ejemplos">
+      
+      
+        <meta name="author" content="Serge Tahé">
+      
+      
+        <link rel="canonical" href="https://stahe.github.io/ales-dart-sept-2026/las-funciones-http-en-dart.html">
+      
+      
+        <link rel="prev" href="instalacion-de-un-servidor-nestjs.html">
+      
+      
+        <link rel="next" href="clientes-http-para-el-servicio-de-calculo-de-impuestos.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>5. Las funciones HTTP en Dart - Introducción al lenguaje Dart mediante ejemplos</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="stylesheets/focus.css">
+    
+      <link rel="stylesheet" href="stylesheets/bidi.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBZC3JVJNR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    var siteName = "Introducción al lenguaje Dart mediante ejemplos";
+    gtag('config', 'G-EBZC3JVJNR', {
+        'page_title': siteName
+    });
+  </script>
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#5-las-funciones-http-en-dart" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Introducción al lenguaje Dart mediante ejemplos" class="md-header__button md-logo" aria-label="Introducción al lenguaje Dart mediante ejemplos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introducción al lenguaje Dart mediante ejemplos
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              5. Las funciones HTTP en Dart
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="purple"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="purple"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://stahe.github.io/ales-dart-sept-2026" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Introducción al lenguaje Dart mediante ejemplos" class="md-nav__button md-logo" aria-label="Introducción al lenguaje Dart mediante ejemplos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Introducción al lenguaje Dart mediante ejemplos
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://stahe.github.io/ales-dart-sept-2026" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bienvenido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="introduccion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="configuracion-de-un-entorno-de-desarrollo.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Configuración de un entorno de desarrollo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="los-fundamentos.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Los fundamentos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="instalacion-de-un-servidor-nestjs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Instalación de un servidor NestJS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Las funciones HTTP en Dart
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="las-funciones-http-en-dart.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Las funciones HTTP en Dart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#51-eleccion-de-las-herramientas-http" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Elección de las herramientas HTTP
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#52-el-servidor-de-calculo-de-impuestos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. El servidor de cálculo de impuestos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.2. El servidor de cálculo de impuestos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#521-script-dart_fetch_01" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.1. script [dart_fetch_01]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#522-script-dart_fetch_02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.2. script [dart_fetch_02]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#523-script-dart_fetch_03" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.3. script [dart_fetch_03]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#524-script-dart_dio_01" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.4. script [dart_dio_01]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#525-script-dart_dio_02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.5. script [dart_dio_02]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#526-script-dart_dio_03" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.6. script [dart_dio_03]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#527-conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.7. Conclusión
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="clientes-http-para-el-servicio-de-calculo-de-impuestos.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Clientes HTTP para el servicio de cálculo de impuestos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="acceso-a-bases-de-datos.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Acceso a bases de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="conclusion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Conclusión
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="5-las-funciones-http-en-dart">5. <span style="color: #2e74b5">Las funciones HTTP en Dart</span></h1>
+<p><img src="images/100000000000012200000138B25AAC68.png" width="145" height="156" style="width:3.836cm;height:4.128cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/100000000000012200000138B25AAC68.png" /></p>
+<h2 id="51-eleccion-de-las-herramientas-http">5.1. <span style="color: #2e74b5">Elección de las herramientas HTTP</span></h2>
+<p>A diferencia de JavaScript/TypeScript, que ofrece una función [fetch] NATIVA (tanto en el navegador como en Node.js), Dart NO ofrece un cliente de alto nivel en su biblioteca estándar ([dart:io] expone solo un [HttpClient] de bajo nivel, engorroso de usar directamente). Dos paquetes externos cubren en conjunto exactamente el mismo terreno que [fetch] y [axios] en el curso de TypeScript:</p>
+<ul>
+<li>[package:http] (pub.dev/packages/http), mantenido por el propio equipo de Dart: una API simple y de bajo nivel, sin configuración global ni interceptores; el papel de [fetch].</li>
+<li>[package:dio] (pub.dev/packages/dio): configuración global ([baseUrl], [timeout]), interceptores, manejo de errores mejorado ([DioException.response]); el papel de [axios].</li>
+</ul>
+<h2 id="52-el-servidor-de-calculo-de-impuestos">5.2. <span style="color: #2e74b5">El servidor de cálculo de impuestos</span></h2>
+<p>Todos los scripts de este capítulo apuntan al servidor NestJS instalado en el capítulo anterior, en la dirección [http://localhost:3000/main.php]. Antes de probar los siguientes scripts, verifique que su servidor NestJS esté en ejecución. Para que funcione, la herramienta Laragon también debe estar en ejecución.</p>
+<h3 id="521-script-dart_fetch_01">5.2.1. <span style="color: #1f4d78">script [dart_fetch_01]</span></h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#__codelineno-0-54">54</a></span>
+<span class="normal"><a href="#__codelineno-0-55">55</a></span>
+<span class="normal"><a href="#__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#__codelineno-0-58">58</a></span>
+<span class="normal"><a href="#__codelineno-0-59">59</a></span>
+<span class="normal"><a href="#__codelineno-0-60">60</a></span>
+<span class="normal"><a href="#__codelineno-0-61">61</a></span>
+<span class="normal"><a href="#__codelineno-0-62">62</a></span>
+<span class="normal"><a href="#__codelineno-0-63">63</a></span>
+<span class="normal"><a href="#__codelineno-0-64">64</a></span>
+<span class="normal"><a href="#__codelineno-0-65">65</a></span>
+<span class="normal"><a href="#__codelineno-0-66">66</a></span>
+<span class="normal"><a href="#__codelineno-0-67">67</a></span>
+<span class="normal"><a href="#__codelineno-0-68">68</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1">// dart_fetch_01.dart</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="c1">// Porta fetch-01.ts.</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="c1">// Elección de herramientas HTTP en Dart: el paquete [http] (pub.dev/packages/http),</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1">// mantenido por el propio equipo de Dart, hace el papel del [fetch] nativo de</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="c1">// Node.js/el navegador - una API simple y de bajo nivel, sin</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="c1">// configuración global ni interceptores (a diferencia del paquete [dio],</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="c1">// que hace el papel de [axios] - ver dart_dio_01.dart).</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="k">import</span><span class="w"> </span><span class="s1">'dart:convert'</span><span class="p">;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="k">import</span><span class="w"> </span><span class="s1">'package:http/http.dart'</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">http</span><span class="p">;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="c1">// URL base del servidor de cálculo de impuestos (ver el capítulo</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="c1">// "Installing a NestJS server")</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="k">const</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="n">baseUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'http://localhost:3000/main.php'</span><span class="p">;</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14"></a>
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="c1">// inicio de sesión</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="n">Future</span><span class="o">&lt;</span><span class="kt">dynamic</span><span class="o">&gt;</span><span class="w"> </span><span class="n">initSession</span><span class="p">()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="w">  </span><span class="c1">// [difference with TypeScript] el paquete [http] no tiene opción</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="w">  </span><span class="c1">// [timeout] en la solicitud misma: limitamos el tiempo de espera</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="w">  </span><span class="c1">// envolviendo el Future con la extensión [.timeout(...)] de dart:async,</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="w">  </span><span class="c1">// que funciona con CUALQUIER Future (no solo con solicitudes</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="w">  </span><span class="c1">// HTTP) - un mecanismo más general que el AbortSignal.timeout() de fetch,</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="w">  </span><span class="c1">// específico del fetch nativo.</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Uri</span><span class="p">.</span><span class="n">parse</span><span class="p">(</span><span class="n">baseUrl</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="nl">queryParameters:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="w">    </span><span class="s1">'action'</span><span class="o">:</span><span class="w"> </span><span class="s1">'init-session'</span><span class="p">,</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="w">    </span><span class="s1">'type'</span><span class="o">:</span><span class="w"> </span><span class="s1">'json'</span><span class="p">,</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="w">  </span><span class="p">});</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="w">    </span><span class="c1">// solicitud asíncrona - http.get() devuelve un Future&lt;http.Response&gt;</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">stopwatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Stopwatch</span><span class="p">()..</span><span class="n">start</span><span class="p">();</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">http</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="n">uri</span><span class="p">).</span><span class="n">timeout</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Duration</span><span class="p">(</span><span class="nl">seconds:</span><span class="w"> </span><span class="m">2</span><span class="p">));</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="w">    </span><span class="c1">// [response] es la respuesta HTTP completa del servidor (encabezados</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="w">    </span><span class="c1">// HTTP + cuerpo) - la mostramos para ver su estructura</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"http response in Dart (duration=</span><span class="si">${</span><span class="n">stopwatch</span><span class="p">.</span><span class="n">elapsedMilliseconds</span><span class="si">}</span><span class="s2">ms) : "</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="w">        </span><span class="s2">"statusCode=</span><span class="si">${</span><span class="n">response</span><span class="p">.</span><span class="n">statusCode</span><span class="si">}</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="w">    </span><span class="c1">// podemos acceder a los encabezados HTTP</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"response headers=</span><span class="si">${</span><span class="n">response</span><span class="p">.</span><span class="n">headers</span><span class="si">}</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="w">    </span><span class="c1">// [difference with TypeScript] a diferencia de fetch, donde response.json()</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="w">    </span><span class="c1">// es un método ASÍNCRONO separado (un nuevo Future), el cuerpo de</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="w">    </span><span class="c1">// http.Response ya está completamente disponible de forma</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="w">    </span><span class="c1">// SÍNCRONA (response.body, un String): http.get() ya esperó</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="w">    </span><span class="c1">// todo el cuerpo antes de devolver su resultado. Por lo tanto, jsonDecode()</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="w">    </span><span class="c1">// no es una operación asíncrona aquí.</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">object</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jsonDecode</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">body</span><span class="p">);</span>
+<a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"json response=</span><span class="si">$</span><span class="n">object</span><span class="s2">, type=</span><span class="si">${</span><span class="n">object</span><span class="p">.</span><span class="n">runtimeType</span><span class="si">}</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">object</span><span class="p">;</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="w">    </span><span class="c1">// llegamos aquí porque el servidor respondió con un código de error, o</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="w">    </span><span class="c1">// porque el cliente http lanzó una excepción (red inaccesible,</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="w">    </span><span class="c1">// tiempo de espera excedido...)</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"fetch error in Dart=</span><span class="si">${</span><span class="n">error</span><span class="p">.</span><span class="n">runtimeType</span><span class="si">}</span><span class="s2">, </span><span class="si">$</span><span class="n">error</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="w">    </span><span class="c1">// relanzamos el error</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="w">    </span><span class="k">rethrow</span><span class="p">;</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="p">}</span>
+<a id="__codelineno-0-55" name="__codelineno-0-55"></a>
+<a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="c1">// la función main ejecuta la función asíncrona [initSession]</span>
+<a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="n">Future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"HTTP request to the server in progress "</span>
+<a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="w">        </span><span class="s2">"---------------------------------------------"</span><span class="p">);</span>
+<a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">initSession</span><span class="p">();</span>
+<a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"success ---------------------------------------------"</span><span class="p">);</span>
+<a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"response=</span><span class="si">$</span><span class="n">response</span><span class="s2"> </span><span class="si">${</span><span class="n">response</span><span class="p">.</span><span class="n">runtimeType</span><span class="si">}</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"error ---------------------------------------------"</span><span class="p">);</span>
+<a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"error=</span><span class="si">$</span><span class="n">error</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>Comentemos este código:</p>
+<ul>
+<li>línea 30: [http.get(uri).timeout(const Duration(seconds: 2))]: el paquete [http] no tiene una opción [timeout] en la propia solicitud; limitamos el tiempo de espera envolviendo el [Future] con el método [.timeout(...)] de dart:async, que funciona sobre CUALQUIER [Future], no solo sobre solicitudes HTTP.</li>
+<li>Línea 43: [jsonDecode(response.body)]: a diferencia de [fetch], donde [response.json()] es un método ASÍNCRONO aparte, el cuerpo de una [http.Response] ya está completamente disponible de forma SÍNCRONA ([response.body], un [String]): [http.get()] ya esperó el cuerpo completo antes de devolver su resultado.</li>
+</ul>
+<p>El resultado de la ejecución es el siguiente:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span>
+<span class="normal"><a href="#__codelineno-1-5">5</a></span>
+<span class="normal"><a href="#__codelineno-1-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a>HTTP request to the server in progress ---------------------------------------------
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a>http response in Dart (duration=73ms) : statusCode=200
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a>response headers={x-powered-by: Express, connection: keep-alive, keep-alive: timeout=5, set-cookie: connect.sid=s%3AWxLD5aAAWVIL6pinZyP75L4COQi837LW.NmwJehFDFeCvZ0p6CKHV9ybz9xNUvndTB7TYlKgp7s4; Path=/; HttpOnly; SameSite=Lax, date: Sun, 20 Sep 2026 09:47:30 GMT, content-length: 84, etag: W/"54-sE02l73cr4dRIJSanYxwhuhm21c", content-type: application/json; charset=utf-8}
+<a id="__codelineno-1-4" name="__codelineno-1-4"></a>json response={action: init-session, status: 700, response: session started with type [json]}, type=_Map&lt;String, dynamic&gt;
+<a id="__codelineno-1-5" name="__codelineno-1-5"></a>success ---------------------------------------------
+<a id="__codelineno-1-6" name="__codelineno-1-6"></a>response={action: init-session, status: 700, response: session started with type [json]} _Map&lt;String, dynamic&gt;
+</code></pre></div></td></tr></table></div>
+<h3 id="522-script-dart_fetch_02">5.2.2. <span style="color: #1f4d78">script [dart_fetch_02]</span></h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span>
+<span class="normal"><a href="#__codelineno-2-18">18</a></span>
+<span class="normal"><a href="#__codelineno-2-19">19</a></span>
+<span class="normal"><a href="#__codelineno-2-20">20</a></span>
+<span class="normal"><a href="#__codelineno-2-21">21</a></span>
+<span class="normal"><a href="#__codelineno-2-22">22</a></span>
+<span class="normal"><a href="#__codelineno-2-23">23</a></span>
+<span class="normal"><a href="#__codelineno-2-24">24</a></span>
+<span class="normal"><a href="#__codelineno-2-25">25</a></span>
+<span class="normal"><a href="#__codelineno-2-26">26</a></span>
+<span class="normal"><a href="#__codelineno-2-27">27</a></span>
+<span class="normal"><a href="#__codelineno-2-28">28</a></span>
+<span class="normal"><a href="#__codelineno-2-29">29</a></span>
+<span class="normal"><a href="#__codelineno-2-30">30</a></span>
+<span class="normal"><a href="#__codelineno-2-31">31</a></span>
+<span class="normal"><a href="#__codelineno-2-32">32</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1">// dart_fetch_02.dart</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="c1">// Porta fetch-02.ts: versión "concisa" de dart_fetch_01.dart, sin las</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c1">// visualizaciones intermedias.</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="k">import</span><span class="w"> </span><span class="s1">'dart:convert'</span><span class="p">;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="k">import</span><span class="w"> </span><span class="s1">'package:http/http.dart'</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">http</span><span class="p">;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="k">const</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="n">baseUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'http://localhost:3000/main.php'</span><span class="p">;</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8"></a>
+<a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="c1">// inicio de sesión</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="n">Future</span><span class="o">&lt;</span><span class="kt">dynamic</span><span class="o">&gt;</span><span class="w"> </span><span class="n">initSession</span><span class="p">()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Uri</span><span class="p">.</span><span class="n">parse</span><span class="p">(</span><span class="n">baseUrl</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="nl">queryParameters:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="w">    </span><span class="s1">'action'</span><span class="o">:</span><span class="w"> </span><span class="s1">'init-session'</span><span class="p">,</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="w">    </span><span class="s1">'type'</span><span class="o">:</span><span class="w"> </span><span class="s1">'json'</span><span class="p">,</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="w">  </span><span class="p">});</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">http</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="n">uri</span><span class="p">).</span><span class="n">timeout</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Duration</span><span class="p">(</span><span class="nl">seconds:</span><span class="w"> </span><span class="m">2</span><span class="p">));</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="w">  </span><span class="c1">// resultado recibido en JSON</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">jsonDecode</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">body</span><span class="p">);</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18"></a><span class="p">}</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19"></a>
+<a id="__codelineno-2-20" name="__codelineno-2-20"></a><span class="c1">// la función main ejecuta la función asíncrona [initSession]</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21"></a><span class="n">Future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22"></a><span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"HTTP request to the server in progress "</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24"></a><span class="w">        </span><span class="s2">"---------------------------------------------"</span><span class="p">);</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">initSession</span><span class="p">();</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"success ---------------------------------------------"</span><span class="p">);</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"response=</span><span class="si">$</span><span class="n">response</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-2-28" name="__codelineno-2-28"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"error ---------------------------------------------"</span><span class="p">);</span>
+<a id="__codelineno-2-30" name="__codelineno-2-30"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"error=</span><span class="si">$</span><span class="n">error</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-2-31" name="__codelineno-2-31"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-32" name="__codelineno-2-32"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>Comentemos este código:</p>
+<ul>
+<li>Una versión concisa de dart_fetch_01.dart, sin las salidas intermedias; la estructura sigue siendo la misma: construir el [Uri], llamar a [http.get], decodificar el JSON.</li>
+</ul>
+<p>El resultado de la ejecución es el siguiente:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a>HTTP request to the server in progress ---------------------------------------------
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a>success ---------------------------------------------
+<a id="__codelineno-3-3" name="__codelineno-3-3"></a>response={action: init-session, status: 700, response: session started with type [json]}
+</code></pre></div></td></tr></table></div>
+<h3 id="523-script-dart_fetch_03">5.2.3. <span style="color: #1f4d78">script [dart_fetch_03]</span></h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span>
+<span class="normal"><a href="#__codelineno-4-16">16</a></span>
+<span class="normal"><a href="#__codelineno-4-17">17</a></span>
+<span class="normal"><a href="#__codelineno-4-18">18</a></span>
+<span class="normal"><a href="#__codelineno-4-19">19</a></span>
+<span class="normal"><a href="#__codelineno-4-20">20</a></span>
+<span class="normal"><a href="#__codelineno-4-21">21</a></span>
+<span class="normal"><a href="#__codelineno-4-22">22</a></span>
+<span class="normal"><a href="#__codelineno-4-23">23</a></span>
+<span class="normal"><a href="#__codelineno-4-24">24</a></span>
+<span class="normal"><a href="#__codelineno-4-25">25</a></span>
+<span class="normal"><a href="#__codelineno-4-26">26</a></span>
+<span class="normal"><a href="#__codelineno-4-27">27</a></span>
+<span class="normal"><a href="#__codelineno-4-28">28</a></span>
+<span class="normal"><a href="#__codelineno-4-29">29</a></span>
+<span class="normal"><a href="#__codelineno-4-30">30</a></span>
+<span class="normal"><a href="#__codelineno-4-31">31</a></span>
+<span class="normal"><a href="#__codelineno-4-32">32</a></span>
+<span class="normal"><a href="#__codelineno-4-33">33</a></span>
+<span class="normal"><a href="#__codelineno-4-34">34</a></span>
+<span class="normal"><a href="#__codelineno-4-35">35</a></span>
+<span class="normal"><a href="#__codelineno-4-36">36</a></span>
+<span class="normal"><a href="#__codelineno-4-37">37</a></span>
+<span class="normal"><a href="#__codelineno-4-38">38</a></span>
+<span class="normal"><a href="#__codelineno-4-39">39</a></span>
+<span class="normal"><a href="#__codelineno-4-40">40</a></span>
+<span class="normal"><a href="#__codelineno-4-41">41</a></span>
+<span class="normal"><a href="#__codelineno-4-42">42</a></span>
+<span class="normal"><a href="#__codelineno-4-43">43</a></span>
+<span class="normal"><a href="#__codelineno-4-44">44</a></span>
+<span class="normal"><a href="#__codelineno-4-45">45</a></span>
+<span class="normal"><a href="#__codelineno-4-46">46</a></span>
+<span class="normal"><a href="#__codelineno-4-47">47</a></span>
+<span class="normal"><a href="#__codelineno-4-48">48</a></span>
+<span class="normal"><a href="#__codelineno-4-49">49</a></span>
+<span class="normal"><a href="#__codelineno-4-50">50</a></span>
+<span class="normal"><a href="#__codelineno-4-51">51</a></span>
+<span class="normal"><a href="#__codelineno-4-52">52</a></span>
+<span class="normal"><a href="#__codelineno-4-53">53</a></span>
+<span class="normal"><a href="#__codelineno-4-54">54</a></span>
+<span class="normal"><a href="#__codelineno-4-55">55</a></span>
+<span class="normal"><a href="#__codelineno-4-56">56</a></span>
+<span class="normal"><a href="#__codelineno-4-57">57</a></span>
+<span class="normal"><a href="#__codelineno-4-58">58</a></span>
+<span class="normal"><a href="#__codelineno-4-59">59</a></span>
+<span class="normal"><a href="#__codelineno-4-60">60</a></span>
+<span class="normal"><a href="#__codelineno-4-61">61</a></span>
+<span class="normal"><a href="#__codelineno-4-62">62</a></span>
+<span class="normal"><a href="#__codelineno-4-63">63</a></span>
+<span class="normal"><a href="#__codelineno-4-64">64</a></span>
+<span class="normal"><a href="#__codelineno-4-65">65</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c1">// dart_fetch_03.dart</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="c1">// Porta fetch-03.ts: tiempo máximo de espera y cancelación manual de una</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="c1">// solicitud HTTP.</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="k">import</span><span class="w"> </span><span class="s1">'package:http/http.dart'</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">http</span><span class="p">;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="c1">// URL base del servidor de cálculo de impuestos (ver http/README, el</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="c1">// servidor PHP histórico del curso original; aquí apuntamos directamente al</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="c1">// servidor NestJS - ver el capítulo "Installing a NestJS server")</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="k">const</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="n">baseUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'http://localhost:3000/main.php'</span><span class="p">;</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10"></a>
+<a id="__codelineno-4-11" name="__codelineno-4-11"></a><span class="c1">// ejemplo 1: solicitud con un tiempo máximo de espera, gracias a [.timeout(...)]</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12"></a><span class="c1">// (extensión de dart:async sobre cualquier Future - ver dart_fetch_01.dart)</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13"></a><span class="n">Future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="w"> </span><span class="n">requestWithMaximumDelay</span><span class="p">()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14"></a><span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="s2">"--- request with .timeout() ---"</span><span class="p">);</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15"></a><span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">http</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17"></a><span class="w">        </span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="n">Uri</span><span class="p">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">'</span><span class="si">$</span><span class="n">baseUrl</span><span class="s1">?action=init-session&amp;type=json'</span><span class="p">))</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18"></a><span class="w">        </span><span class="c1">// pasados 2 segundos, [.timeout] completa el Future con un error</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19"></a><span class="w">        </span><span class="c1">// de tipo [TimeoutException] - el equivalente en Dart del</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20"></a><span class="w">        </span><span class="c1">// AbortSignal.timeout() de fetch</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21"></a><span class="w">        </span><span class="p">.</span><span class="n">timeout</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Duration</span><span class="p">(</span><span class="nl">seconds:</span><span class="w"> </span><span class="m">2</span><span class="p">));</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"response = </span><span class="si">${</span><span class="n">response</span><span class="p">.</span><span class="n">body</span><span class="si">}</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24"></a><span class="w">    </span><span class="c1">// si el servidor no existe (un caso probable en este ejercicio), o si</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25"></a><span class="w">    </span><span class="c1">// se excede el tiempo de espera, [error] es una [TimeoutException] o una</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26"></a><span class="w">    </span><span class="c1">// [SocketException]/[ClientException] según el caso</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"error.runtimeType = </span><span class="si">${</span><span class="n">error</span><span class="p">.</span><span class="n">runtimeType</span><span class="si">}</span><span class="s2">, message = </span><span class="si">$</span><span class="n">error</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29"></a><span class="p">}</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30"></a>
+<a id="__codelineno-4-31" name="__codelineno-4-31"></a><span class="c1">// ejemplo 2: cancelación manual de una solicitud, por ejemplo porque</span>
+<a id="__codelineno-4-32" name="__codelineno-4-32"></a><span class="c1">// el usuario cambió de opinión (p. ej.: vuelve a escribir en un campo</span>
+<a id="__codelineno-4-33" name="__codelineno-4-33"></a><span class="c1">// de búsqueda).</span>
+<a id="__codelineno-4-34" name="__codelineno-4-34"></a><span class="c1">//</span>
+<a id="__codelineno-4-35" name="__codelineno-4-35"></a><span class="c1">// [WARNING, fundamental difference with TypeScript] el paquete [http] no tiene</span>
+<a id="__codelineno-4-36" name="__codelineno-4-36"></a><span class="c1">// señal de cancelación POR SOLICITUD, como el AbortSignal de fetch: la</span>
+<a id="__codelineno-4-37" name="__codelineno-4-37"></a><span class="c1">// única forma de cancelar es CERRAR EL CLIENTE (http.Client.close()) en</span>
+<a id="__codelineno-4-38" name="__codelineno-4-38"></a><span class="c1">// su totalidad, lo que cancela TODAS las solicitudes en curso de este cliente - por</span>
+<a id="__codelineno-4-39" name="__codelineno-4-39"></a><span class="c1">// lo tanto, hay que crear un cliente DEDICADO a la solicitud que se quiere poder cancelar</span>
+<a id="__codelineno-4-40" name="__codelineno-4-40"></a><span class="c1">// individualmente, en lugar de un cliente compartido por toda la aplicación.</span>
+<a id="__codelineno-4-41" name="__codelineno-4-41"></a><span class="n">Future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="w"> </span><span class="n">manuallyCancellableRequest</span><span class="p">()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-42" name="__codelineno-4-42"></a><span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="s2">"--- request cancelled manually ---"</span><span class="p">);</span>
+<a id="__codelineno-4-43" name="__codelineno-4-43"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">http</span><span class="p">.</span><span class="n">Client</span><span class="p">();</span>
+<a id="__codelineno-4-44" name="__codelineno-4-44"></a>
+<a id="__codelineno-4-45" name="__codelineno-4-45"></a><span class="w">  </span><span class="c1">// programamos una cancelación "de negocio" después de 10 ms (en una</span>
+<a id="__codelineno-4-46" name="__codelineno-4-46"></a><span class="w">  </span><span class="c1">// aplicación real, esto sería por ejemplo un clic en un botón "cancelar")</span>
+<a id="__codelineno-4-47" name="__codelineno-4-47"></a><span class="w">  </span><span class="n">Future</span><span class="p">.</span><span class="n">delayed</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Duration</span><span class="p">(</span><span class="nl">milliseconds:</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-48" name="__codelineno-4-48"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"manual cancellation triggered"</span><span class="p">);</span>
+<a id="__codelineno-4-49" name="__codelineno-4-49"></a><span class="w">    </span><span class="n">client</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+<a id="__codelineno-4-50" name="__codelineno-4-50"></a><span class="w">  </span><span class="p">});</span>
+<a id="__codelineno-4-51" name="__codelineno-4-51"></a>
+<a id="__codelineno-4-52" name="__codelineno-4-52"></a><span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-53" name="__codelineno-4-53"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="n">Uri</span><span class="p">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">'</span><span class="si">$</span><span class="n">baseUrl</span><span class="s1">?action=init-session&amp;type=json'</span><span class="p">));</span>
+<a id="__codelineno-4-54" name="__codelineno-4-54"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"response = </span><span class="si">${</span><span class="n">response</span><span class="p">.</span><span class="n">body</span><span class="si">}</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-4-55" name="__codelineno-4-55"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-56" name="__codelineno-4-56"></a><span class="w">    </span><span class="c1">// cerrar el cliente durante una solicitud en curso la hace fallar con</span>
+<a id="__codelineno-4-57" name="__codelineno-4-57"></a><span class="w">    </span><span class="c1">// una [ClientException]</span>
+<a id="__codelineno-4-58" name="__codelineno-4-58"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"error.runtimeType = </span><span class="si">${</span><span class="n">error</span><span class="p">.</span><span class="n">runtimeType</span><span class="si">}</span><span class="s2">, message = </span><span class="si">$</span><span class="n">error</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-4-59" name="__codelineno-4-59"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-4-60" name="__codelineno-4-60"></a><span class="p">}</span>
+<a id="__codelineno-4-61" name="__codelineno-4-61"></a>
+<a id="__codelineno-4-62" name="__codelineno-4-62"></a><span class="n">Future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-63" name="__codelineno-4-63"></a><span class="w">  </span><span class="kd">await</span><span class="w"> </span><span class="n">requestWithMaximumDelay</span><span class="p">();</span>
+<a id="__codelineno-4-64" name="__codelineno-4-64"></a><span class="w">  </span><span class="kd">await</span><span class="w"> </span><span class="n">manuallyCancellableRequest</span><span class="p">();</span>
+<a id="__codelineno-4-65" name="__codelineno-4-65"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>Analicemos este código:</p>
+<ul>
+<li>Línea 21: [.timeout(const Duration(seconds: 2))] completa con error el [Future] con una [TimeoutException] cuando se supera el límite de tiempo; el equivalente en Dart de [AbortSignal.timeout()] para [fetch].</li>
+<li>Línea 35: [WARNING, key difference]: el paquete [http] NO tiene una señal de cancelación POR SOLICITUD como [AbortController] para [fetch]: la única forma de cancelar es CERRAR EL CLIENTE ([http.Client.close()]) por completo, lo que cancela TODAS las solicitudes pendientes de ese cliente; de ahí la necesidad de crear un cliente DEDICADO para la solicitud que se quiera poder cancelar individualmente.</li>
+</ul>
+<p>El resultado de la ejecución es el siguiente:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span>
+<span class="normal"><a href="#__codelineno-5-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a>--- request with .timeout() ---
+<a id="__codelineno-5-2" name="__codelineno-5-2"></a>response = {"action":"init-session","status":700,"response":"session started with type [json]"}
+<a id="__codelineno-5-3" name="__codelineno-5-3"></a>--- request cancelled manually ---
+<a id="__codelineno-5-4" name="__codelineno-5-4"></a>response = {"action":"init-session","status":700,"response":"session started with type [json]"}
+<a id="__codelineno-5-5" name="__codelineno-5-5"></a>manual cancellation triggered
+</code></pre></div></td></tr></table></div>
+<h3 id="524-script-dart_dio_01">5.2.4. <span style="color: #1f4d78">script [dart_dio_01]</span></h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-6-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-6-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-6-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-6-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-6-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-6-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-6-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-6-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-6-10">10</a></span>
+<span class="normal"><a href="#__codelineno-6-11">11</a></span>
+<span class="normal"><a href="#__codelineno-6-12">12</a></span>
+<span class="normal"><a href="#__codelineno-6-13">13</a></span>
+<span class="normal"><a href="#__codelineno-6-14">14</a></span>
+<span class="normal"><a href="#__codelineno-6-15">15</a></span>
+<span class="normal"><a href="#__codelineno-6-16">16</a></span>
+<span class="normal"><a href="#__codelineno-6-17">17</a></span>
+<span class="normal"><a href="#__codelineno-6-18">18</a></span>
+<span class="normal"><a href="#__codelineno-6-19">19</a></span>
+<span class="normal"><a href="#__codelineno-6-20">20</a></span>
+<span class="normal"><a href="#__codelineno-6-21">21</a></span>
+<span class="normal"><a href="#__codelineno-6-22">22</a></span>
+<span class="normal"><a href="#__codelineno-6-23">23</a></span>
+<span class="normal"><a href="#__codelineno-6-24">24</a></span>
+<span class="normal"><a href="#__codelineno-6-25">25</a></span>
+<span class="normal"><a href="#__codelineno-6-26">26</a></span>
+<span class="normal"><a href="#__codelineno-6-27">27</a></span>
+<span class="normal"><a href="#__codelineno-6-28">28</a></span>
+<span class="normal"><a href="#__codelineno-6-29">29</a></span>
+<span class="normal"><a href="#__codelineno-6-30">30</a></span>
+<span class="normal"><a href="#__codelineno-6-31">31</a></span>
+<span class="normal"><a href="#__codelineno-6-32">32</a></span>
+<span class="normal"><a href="#__codelineno-6-33">33</a></span>
+<span class="normal"><a href="#__codelineno-6-34">34</a></span>
+<span class="normal"><a href="#__codelineno-6-35">35</a></span>
+<span class="normal"><a href="#__codelineno-6-36">36</a></span>
+<span class="normal"><a href="#__codelineno-6-37">37</a></span>
+<span class="normal"><a href="#__codelineno-6-38">38</a></span>
+<span class="normal"><a href="#__codelineno-6-39">39</a></span>
+<span class="normal"><a href="#__codelineno-6-40">40</a></span>
+<span class="normal"><a href="#__codelineno-6-41">41</a></span>
+<span class="normal"><a href="#__codelineno-6-42">42</a></span>
+<span class="normal"><a href="#__codelineno-6-43">43</a></span>
+<span class="normal"><a href="#__codelineno-6-44">44</a></span>
+<span class="normal"><a href="#__codelineno-6-45">45</a></span>
+<span class="normal"><a href="#__codelineno-6-46">46</a></span>
+<span class="normal"><a href="#__codelineno-6-47">47</a></span>
+<span class="normal"><a href="#__codelineno-6-48">48</a></span>
+<span class="normal"><a href="#__codelineno-6-49">49</a></span>
+<span class="normal"><a href="#__codelineno-6-50">50</a></span>
+<span class="normal"><a href="#__codelineno-6-51">51</a></span>
+<span class="normal"><a href="#__codelineno-6-52">52</a></span>
+<span class="normal"><a href="#__codelineno-6-53">53</a></span>
+<span class="normal"><a href="#__codelineno-6-54">54</a></span>
+<span class="normal"><a href="#__codelineno-6-55">55</a></span>
+<span class="normal"><a href="#__codelineno-6-56">56</a></span>
+<span class="normal"><a href="#__codelineno-6-57">57</a></span>
+<span class="normal"><a href="#__codelineno-6-58">58</a></span>
+<span class="normal"><a href="#__codelineno-6-59">59</a></span>
+<span class="normal"><a href="#__codelineno-6-60">60</a></span>
+<span class="normal"><a href="#__codelineno-6-61">61</a></span>
+<span class="normal"><a href="#__codelineno-6-62">62</a></span>
+<span class="normal"><a href="#__codelineno-6-63">63</a></span>
+<span class="normal"><a href="#__codelineno-6-64">64</a></span>
+<span class="normal"><a href="#__codelineno-6-65">65</a></span>
+<span class="normal"><a href="#__codelineno-6-66">66</a></span>
+<span class="normal"><a href="#__codelineno-6-67">67</a></span>
+<span class="normal"><a href="#__codelineno-6-68">68</a></span>
+<span class="normal"><a href="#__codelineno-6-69">69</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c1">// dart_dio_01.dart</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="c1">// Porta axios-01.ts y axios-02.ts.</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="c1">// Elección de herramientas HTTP en Dart: el paquete [dio] (pub.dev/packages/dio)</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="c1">// hace el papel de [axios] - una configuración global (baseUrl, timeout),</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="c1">// interceptores, manejo de errores enriquecido (error.response, como</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6"></a><span class="c1">// axios): todo lo que el paquete [http], más cercano a fetch, deja al</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7"></a><span class="c1">// código que lo llama (ver dart_fetch_01.dart).</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8"></a><span class="k">import</span><span class="w"> </span><span class="s1">'package:dio/dio.dart'</span><span class="p">;</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9"></a>
+<a id="__codelineno-6-10" name="__codelineno-6-10"></a><span class="c1">// una instancia de Dio configurada de una vez por todas, reutilizada por todas</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11"></a><span class="c1">// las llamadas - exactamente el papel de "axios.defaults" en TypeScript</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12"></a><span class="kd">final</span><span class="w"> </span><span class="n">Dio</span><span class="w"> </span><span class="n">dio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Dio</span><span class="p">(</span><span class="n">BaseOptions</span><span class="p">(</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13"></a><span class="w">  </span><span class="nl">baseUrl:</span><span class="w"> </span><span class="s1">'http://localhost:3000/'</span><span class="p">,</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14"></a><span class="w">  </span><span class="nl">connectTimeout:</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Duration</span><span class="p">(</span><span class="nl">seconds:</span><span class="w"> </span><span class="m">2</span><span class="p">),</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15"></a><span class="w">  </span><span class="nl">receiveTimeout:</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Duration</span><span class="p">(</span><span class="nl">seconds:</span><span class="w"> </span><span class="m">2</span><span class="p">),</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16"></a><span class="p">));</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17"></a>
+<a id="__codelineno-6-18" name="__codelineno-6-18"></a><span class="c1">// inicio de sesión</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19"></a><span class="n">Future</span><span class="o">&lt;</span><span class="kt">dynamic</span><span class="o">&gt;</span><span class="w"> </span><span class="n">initSession</span><span class="p">({</span><span class="kd">required</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="n">type</span><span class="p">})</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20"></a><span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21"></a><span class="w">    </span><span class="c1">// solicitud asíncrona - dio.get() acepta directamente</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22"></a><span class="w">    </span><span class="c1">// queryParameters, como axios.request({params: ...})</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">dio</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">'main.php'</span><span class="p">,</span><span class="w"> </span><span class="nl">queryParameters:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-24" name="__codelineno-6-24"></a><span class="w">      </span><span class="s1">'action'</span><span class="o">:</span><span class="w"> </span><span class="s1">'init-session'</span><span class="p">,</span>
+<a id="__codelineno-6-25" name="__codelineno-6-25"></a><span class="w">      </span><span class="s1">'type'</span><span class="o">:</span><span class="w"> </span><span class="n">type</span><span class="p">,</span>
+<a id="__codelineno-6-26" name="__codelineno-6-26"></a><span class="w">    </span><span class="p">});</span>
+<a id="__codelineno-6-27" name="__codelineno-6-27"></a><span class="w">    </span><span class="c1">// la respuesta del servidor está en [response.data] (ya decodificada a</span>
+<a id="__codelineno-6-28" name="__codelineno-6-28"></a><span class="w">    </span><span class="c1">// Map/List por Dio si el Content-Type es JSON), exactamente como</span>
+<a id="__codelineno-6-29" name="__codelineno-6-29"></a><span class="w">    </span><span class="c1">// response.data en axios</span>
+<a id="__codelineno-6-30" name="__codelineno-6-30"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="n">data</span><span class="p">;</span>
+<a id="__codelineno-6-31" name="__codelineno-6-31"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="kd">on</span><span class="w"> </span><span class="n">DioException</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-32" name="__codelineno-6-32"></a><span class="w">    </span><span class="c1">// el parámetro [error] es una [DioException] - la mostramos para</span>
+<a id="__codelineno-6-33" name="__codelineno-6-33"></a><span class="w">    </span><span class="c1">// ver su estructura (equivalente del "console.log(axios error)"</span>
+<a id="__codelineno-6-34" name="__codelineno-6-34"></a><span class="w">    </span><span class="c1">// comentado en axios-01.ts)</span>
+<a id="__codelineno-6-35" name="__codelineno-6-35"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">.</span><span class="n">response</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-36" name="__codelineno-6-36"></a><span class="w">      </span><span class="c1">// el servidor señaló un error en el estado HTTP pero también</span>
+<a id="__codelineno-6-37" name="__codelineno-6-37"></a><span class="w">      </span><span class="c1">// envió una respuesta: está en [error.response!.data],</span>
+<a id="__codelineno-6-38" name="__codelineno-6-38"></a><span class="w">      </span><span class="c1">// exactamente como [error.response.data] en axios</span>
+<a id="__codelineno-6-39" name="__codelineno-6-39"></a><span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">error</span><span class="p">.</span><span class="n">response</span><span class="o">!</span><span class="p">.</span><span class="n">data</span><span class="p">;</span>
+<a id="__codelineno-6-40" name="__codelineno-6-40"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-41" name="__codelineno-6-41"></a><span class="w">      </span><span class="c1">// ninguna respuesta (red inaccesible, tiempo de espera excedido...) -</span>
+<a id="__codelineno-6-42" name="__codelineno-6-42"></a><span class="w">      </span><span class="c1">// relanzamos el error</span>
+<a id="__codelineno-6-43" name="__codelineno-6-43"></a><span class="w">      </span><span class="k">rethrow</span><span class="p">;</span>
+<a id="__codelineno-6-44" name="__codelineno-6-44"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-6-45" name="__codelineno-6-45"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-6-46" name="__codelineno-6-46"></a><span class="p">}</span>
+<a id="__codelineno-6-47" name="__codelineno-6-47"></a>
+<a id="__codelineno-6-48" name="__codelineno-6-48"></a><span class="n">Future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-49" name="__codelineno-6-49"></a><span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-50" name="__codelineno-6-50"></a><span class="w">    </span><span class="c1">// 1.er intento, deliberadamente inválido (type='x' en lugar de 'json'),</span>
+<a id="__codelineno-6-51" name="__codelineno-6-51"></a><span class="w">    </span><span class="c1">// para observar cómo el servidor - y luego dio - señalan el error:</span>
+<a id="__codelineno-6-52" name="__codelineno-6-52"></a><span class="w">    </span><span class="c1">// el servidor responde de todos modos (con un estado de error de negocio), por lo que</span>
+<a id="__codelineno-6-53" name="__codelineno-6-53"></a><span class="w">    </span><span class="c1">// error.response.data efectivamente está lleno, como en axios-01.ts</span>
+<a id="__codelineno-6-54" name="__codelineno-6-54"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"HTTP request (invalid type) to the server in progress "</span>
+<a id="__codelineno-6-55" name="__codelineno-6-55"></a><span class="w">        </span><span class="s2">"---------------------------------------------"</span><span class="p">);</span>
+<a id="__codelineno-6-56" name="__codelineno-6-56"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">invalidResponse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">initSession</span><span class="p">(</span><span class="nl">type:</span><span class="w"> </span><span class="s1">'x'</span><span class="p">);</span>
+<a id="__codelineno-6-57" name="__codelineno-6-57"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"response=</span><span class="si">$</span><span class="n">invalidResponse</span><span class="s2"> </span><span class="si">${</span><span class="n">invalidResponse</span><span class="p">.</span><span class="n">runtimeType</span><span class="si">}</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-6-58" name="__codelineno-6-58"></a>
+<a id="__codelineno-6-59" name="__codelineno-6-59"></a><span class="w">    </span><span class="c1">// 2.º intento, corregido (type='json'), como axios-02.ts</span>
+<a id="__codelineno-6-60" name="__codelineno-6-60"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"HTTP request (corrected type) to the server in progress "</span>
+<a id="__codelineno-6-61" name="__codelineno-6-61"></a><span class="w">        </span><span class="s2">"---------------------------------------------"</span><span class="p">);</span>
+<a id="__codelineno-6-62" name="__codelineno-6-62"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">initSession</span><span class="p">(</span><span class="nl">type:</span><span class="w"> </span><span class="s1">'json'</span><span class="p">);</span>
+<a id="__codelineno-6-63" name="__codelineno-6-63"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"success ---------------------------------------------"</span><span class="p">);</span>
+<a id="__codelineno-6-64" name="__codelineno-6-64"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"response=</span><span class="si">$</span><span class="n">response</span><span class="s2"> </span><span class="si">${</span><span class="n">response</span><span class="p">.</span><span class="n">runtimeType</span><span class="si">}</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-6-65" name="__codelineno-6-65"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-66" name="__codelineno-6-66"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"error ---------------------------------------------"</span><span class="p">);</span>
+<a id="__codelineno-6-67" name="__codelineno-6-67"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"error=</span><span class="si">$</span><span class="n">error</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-6-68" name="__codelineno-6-68"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-6-69" name="__codelineno-6-69"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>Analicemos este código:</p>
+<ul>
+<li>Líneas 12–15: [Dio(BaseOptions(baseUrl: ..., connectTimeout: ..., receiveTimeout: ...))]: una instancia de [Dio] configurada de una vez por todas y reutilizada en todas las llamadas; exactamente el papel de [axios.defaults] en TypeScript.</li>
+<li>[response.data]: la respuesta del servidor, que Dio ya DECODIFICÓ en [Map]/[List] si el [Content-Type] es JSON, exactamente como [response.data] en axios.</li>
+<li>Líneas 30–31: [on DioException catch (error) { if (error.response != null) ... }]: la misma distinción que [error.response] en Axios entre un error CON respuesta del servidor (estado de error de negocio) y un error SIN respuesta (red inaccesible, tiempo de espera agotado).</li>
+</ul>
+<p>El resultado de la ejecución es el siguiente:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span>
+<span class="normal"><a href="#__codelineno-7-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a>HTTP request (invalid type) to the server in progress ---------------------------------------------
+<a id="__codelineno-7-2" name="__codelineno-7-2"></a>response={action: init-session, status: 703, response: invalid parameter type=[x]} _Map&lt;String, dynamic&gt;
+<a id="__codelineno-7-3" name="__codelineno-7-3"></a>HTTP request (corrected type) to the server in progress ---------------------------------------------
+<a id="__codelineno-7-4" name="__codelineno-7-4"></a>success ---------------------------------------------
+<a id="__codelineno-7-5" name="__codelineno-7-5"></a>response={action: init-session, status: 700, response: session started with type [json]} _Map&lt;String, dynamic&gt;
+</code></pre></div></td></tr></table></div>
+<h3 id="525-script-dart_dio_02">5.2.5. <span style="color: #1f4d78">script [dart_dio_02]</span></h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span>
+<span class="normal"><a href="#__codelineno-8-12">12</a></span>
+<span class="normal"><a href="#__codelineno-8-13">13</a></span>
+<span class="normal"><a href="#__codelineno-8-14">14</a></span>
+<span class="normal"><a href="#__codelineno-8-15">15</a></span>
+<span class="normal"><a href="#__codelineno-8-16">16</a></span>
+<span class="normal"><a href="#__codelineno-8-17">17</a></span>
+<span class="normal"><a href="#__codelineno-8-18">18</a></span>
+<span class="normal"><a href="#__codelineno-8-19">19</a></span>
+<span class="normal"><a href="#__codelineno-8-20">20</a></span>
+<span class="normal"><a href="#__codelineno-8-21">21</a></span>
+<span class="normal"><a href="#__codelineno-8-22">22</a></span>
+<span class="normal"><a href="#__codelineno-8-23">23</a></span>
+<span class="normal"><a href="#__codelineno-8-24">24</a></span>
+<span class="normal"><a href="#__codelineno-8-25">25</a></span>
+<span class="normal"><a href="#__codelineno-8-26">26</a></span>
+<span class="normal"><a href="#__codelineno-8-27">27</a></span>
+<span class="normal"><a href="#__codelineno-8-28">28</a></span>
+<span class="normal"><a href="#__codelineno-8-29">29</a></span>
+<span class="normal"><a href="#__codelineno-8-30">30</a></span>
+<span class="normal"><a href="#__codelineno-8-31">31</a></span>
+<span class="normal"><a href="#__codelineno-8-32">32</a></span>
+<span class="normal"><a href="#__codelineno-8-33">33</a></span>
+<span class="normal"><a href="#__codelineno-8-34">34</a></span>
+<span class="normal"><a href="#__codelineno-8-35">35</a></span>
+<span class="normal"><a href="#__codelineno-8-36">36</a></span>
+<span class="normal"><a href="#__codelineno-8-37">37</a></span>
+<span class="normal"><a href="#__codelineno-8-38">38</a></span>
+<span class="normal"><a href="#__codelineno-8-39">39</a></span>
+<span class="normal"><a href="#__codelineno-8-40">40</a></span>
+<span class="normal"><a href="#__codelineno-8-41">41</a></span>
+<span class="normal"><a href="#__codelineno-8-42">42</a></span>
+<span class="normal"><a href="#__codelineno-8-43">43</a></span>
+<span class="normal"><a href="#__codelineno-8-44">44</a></span>
+<span class="normal"><a href="#__codelineno-8-45">45</a></span>
+<span class="normal"><a href="#__codelineno-8-46">46</a></span>
+<span class="normal"><a href="#__codelineno-8-47">47</a></span>
+<span class="normal"><a href="#__codelineno-8-48">48</a></span>
+<span class="normal"><a href="#__codelineno-8-49">49</a></span>
+<span class="normal"><a href="#__codelineno-8-50">50</a></span>
+<span class="normal"><a href="#__codelineno-8-51">51</a></span>
+<span class="normal"><a href="#__codelineno-8-52">52</a></span>
+<span class="normal"><a href="#__codelineno-8-53">53</a></span>
+<span class="normal"><a href="#__codelineno-8-54">54</a></span>
+<span class="normal"><a href="#__codelineno-8-55">55</a></span>
+<span class="normal"><a href="#__codelineno-8-56">56</a></span>
+<span class="normal"><a href="#__codelineno-8-57">57</a></span>
+<span class="normal"><a href="#__codelineno-8-58">58</a></span>
+<span class="normal"><a href="#__codelineno-8-59">59</a></span>
+<span class="normal"><a href="#__codelineno-8-60">60</a></span>
+<span class="normal"><a href="#__codelineno-8-61">61</a></span>
+<span class="normal"><a href="#__codelineno-8-62">62</a></span>
+<span class="normal"><a href="#__codelineno-8-63">63</a></span>
+<span class="normal"><a href="#__codelineno-8-64">64</a></span>
+<span class="normal"><a href="#__codelineno-8-65">65</a></span>
+<span class="normal"><a href="#__codelineno-8-66">66</a></span>
+<span class="normal"><a href="#__codelineno-8-67">67</a></span>
+<span class="normal"><a href="#__codelineno-8-68">68</a></span>
+<span class="normal"><a href="#__codelineno-8-69">69</a></span>
+<span class="normal"><a href="#__codelineno-8-70">70</a></span>
+<span class="normal"><a href="#__codelineno-8-71">71</a></span>
+<span class="normal"><a href="#__codelineno-8-72">72</a></span>
+<span class="normal"><a href="#__codelineno-8-73">73</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c1">// dart_dio_02.dart</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="c1">// Porta axios-03.ts: encadenamiento de dos solicitudes HTTP - init-session, luego</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="c1">// authenticate-user (un POST con un cuerpo codificado como</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="c1">// x-www-form-urlencoded).</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="k">import</span><span class="w"> </span><span class="s1">'package:dio/dio.dart'</span><span class="p">;</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="kd">final</span><span class="w"> </span><span class="n">Dio</span><span class="w"> </span><span class="n">dio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Dio</span><span class="p">(</span><span class="n">BaseOptions</span><span class="p">(</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="w">  </span><span class="nl">baseUrl:</span><span class="w"> </span><span class="s1">'http://localhost:3000/'</span><span class="p">,</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9"></a><span class="w">  </span><span class="nl">connectTimeout:</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Duration</span><span class="p">(</span><span class="nl">seconds:</span><span class="w"> </span><span class="m">2</span><span class="p">),</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="w">  </span><span class="nl">receiveTimeout:</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Duration</span><span class="p">(</span><span class="nl">seconds:</span><span class="w"> </span><span class="m">2</span><span class="p">),</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11"></a><span class="p">));</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12"></a>
+<a id="__codelineno-8-13" name="__codelineno-8-13"></a><span class="n">Future</span><span class="o">&lt;</span><span class="kt">dynamic</span><span class="o">&gt;</span><span class="w"> </span><span class="n">initSession</span><span class="p">()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14"></a><span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">dio</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">'main.php'</span><span class="p">,</span><span class="w"> </span><span class="nl">queryParameters:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16"></a><span class="w">      </span><span class="s1">'action'</span><span class="o">:</span><span class="w"> </span><span class="s1">'init-session'</span><span class="p">,</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17"></a><span class="w">      </span><span class="s1">'type'</span><span class="o">:</span><span class="w"> </span><span class="s1">'json'</span><span class="p">,</span>
+<a id="__codelineno-8-18" name="__codelineno-8-18"></a><span class="w">    </span><span class="p">});</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="n">data</span><span class="p">;</span>
+<a id="__codelineno-8-20" name="__codelineno-8-20"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="kd">on</span><span class="w"> </span><span class="n">DioException</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">.</span><span class="n">response</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-22" name="__codelineno-8-22"></a><span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">error</span><span class="p">.</span><span class="n">response</span><span class="o">!</span><span class="p">.</span><span class="n">data</span><span class="p">;</span>
+<a id="__codelineno-8-23" name="__codelineno-8-23"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-8-24" name="__codelineno-8-24"></a><span class="w">    </span><span class="k">rethrow</span><span class="p">;</span>
+<a id="__codelineno-8-25" name="__codelineno-8-25"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-8-26" name="__codelineno-8-26"></a><span class="p">}</span>
+<a id="__codelineno-8-27" name="__codelineno-8-27"></a>
+<a id="__codelineno-8-28" name="__codelineno-8-28"></a><span class="n">Future</span><span class="o">&lt;</span><span class="kt">dynamic</span><span class="o">&gt;</span><span class="w"> </span><span class="n">authenticateUser</span><span class="p">(</span><span class="kt">String</span><span class="w"> </span><span class="n">user</span><span class="p">,</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="n">password</span><span class="p">)</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-29" name="__codelineno-8-29"></a><span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-30" name="__codelineno-8-30"></a><span class="w">    </span><span class="c1">// solicitud POST con un cuerpo x-www-form-urlencoded - Dio codifica</span>
+<a id="__codelineno-8-31" name="__codelineno-8-31"></a><span class="w">    </span><span class="c1">// automáticamente un Map como x-www-form-urlencoded si el</span>
+<a id="__codelineno-8-32" name="__codelineno-8-32"></a><span class="w">    </span><span class="c1">// Content-Type se especifica en las [Options], exactamente como qs.stringify(...)</span>
+<a id="__codelineno-8-33" name="__codelineno-8-33"></a><span class="w">    </span><span class="c1">// + el encabezado manual de axios-03.ts</span>
+<a id="__codelineno-8-34" name="__codelineno-8-34"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">dio</span><span class="p">.</span><span class="n">post</span><span class="p">(</span>
+<a id="__codelineno-8-35" name="__codelineno-8-35"></a><span class="w">      </span><span class="s1">'main.php'</span><span class="p">,</span>
+<a id="__codelineno-8-36" name="__codelineno-8-36"></a><span class="w">      </span><span class="nl">queryParameters:</span><span class="w"> </span><span class="p">{</span><span class="s1">'action'</span><span class="o">:</span><span class="w"> </span><span class="s1">'authenticate-user'</span><span class="p">},</span>
+<a id="__codelineno-8-37" name="__codelineno-8-37"></a><span class="w">      </span><span class="nl">data:</span><span class="w"> </span><span class="p">{</span><span class="s1">'user'</span><span class="o">:</span><span class="w"> </span><span class="n">user</span><span class="p">,</span><span class="w"> </span><span class="s1">'password'</span><span class="o">:</span><span class="w"> </span><span class="n">password</span><span class="p">},</span>
+<a id="__codelineno-8-38" name="__codelineno-8-38"></a><span class="w">      </span><span class="nl">options:</span><span class="w"> </span><span class="n">Options</span><span class="p">(</span><span class="nl">contentType:</span><span class="w"> </span><span class="n">Headers</span><span class="p">.</span><span class="n">formUrlEncodedContentType</span><span class="p">),</span>
+<a id="__codelineno-8-39" name="__codelineno-8-39"></a><span class="w">    </span><span class="p">);</span>
+<a id="__codelineno-8-40" name="__codelineno-8-40"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="n">data</span><span class="p">;</span>
+<a id="__codelineno-8-41" name="__codelineno-8-41"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="kd">on</span><span class="w"> </span><span class="n">DioException</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-42" name="__codelineno-8-42"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">.</span><span class="n">response</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-43" name="__codelineno-8-43"></a><span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">error</span><span class="p">.</span><span class="n">response</span><span class="o">!</span><span class="p">.</span><span class="n">data</span><span class="p">;</span>
+<a id="__codelineno-8-44" name="__codelineno-8-44"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-8-45" name="__codelineno-8-45"></a><span class="w">    </span><span class="k">rethrow</span><span class="p">;</span>
+<a id="__codelineno-8-46" name="__codelineno-8-46"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-8-47" name="__codelineno-8-47"></a><span class="p">}</span>
+<a id="__codelineno-8-48" name="__codelineno-8-48"></a>
+<a id="__codelineno-8-49" name="__codelineno-8-49"></a><span class="c1">// la función main ejecuta las funciones asíncronas una por una</span>
+<a id="__codelineno-8-50" name="__codelineno-8-50"></a><span class="n">Future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-51" name="__codelineno-8-51"></a><span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-52" name="__codelineno-8-52"></a><span class="w">    </span><span class="c1">// init-session</span>
+<a id="__codelineno-8-53" name="__codelineno-8-53"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"init-session action in progress "</span>
+<a id="__codelineno-8-54" name="__codelineno-8-54"></a><span class="w">        </span><span class="s2">"---------------------------------------------"</span><span class="p">);</span>
+<a id="__codelineno-8-55" name="__codelineno-8-55"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">response1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">initSession</span><span class="p">();</span>
+<a id="__codelineno-8-56" name="__codelineno-8-56"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"success ---------------------------------------------"</span><span class="p">);</span>
+<a id="__codelineno-8-57" name="__codelineno-8-57"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"response=</span><span class="si">$</span><span class="n">response1</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-8-58" name="__codelineno-8-58"></a><span class="w">    </span><span class="c1">// authenticate-user - [NOTE, as in the original TypeScript</span>
+<a id="__codelineno-8-59" name="__codelineno-8-59"></a><span class="w">    </span><span class="c1">// course] esta llamada parte de una nueva solicitud HTTP, SIN</span>
+<a id="__codelineno-8-60" name="__codelineno-8-60"></a><span class="w">    </span><span class="c1">// compartir automáticamente la cookie de sesión establecida por el servidor en</span>
+<a id="__codelineno-8-61" name="__codelineno-8-61"></a><span class="w">    </span><span class="c1">// el paso anterior (ni Dio ni axios lo hacen automáticamente del lado de</span>
+<a id="__codelineno-8-62" name="__codelineno-8-62"></a><span class="w">    </span><span class="c1">// Node/Dart): el seguimiento manual de la cookie de sesión es precisamente el</span>
+<a id="__codelineno-8-63" name="__codelineno-8-63"></a><span class="w">    </span><span class="c1">// tema de dart_dio_03.dart, que porta axios-04.ts.</span>
+<a id="__codelineno-8-64" name="__codelineno-8-64"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"authenticate-user action in progress "</span>
+<a id="__codelineno-8-65" name="__codelineno-8-65"></a><span class="w">        </span><span class="s2">"---------------------------------------------"</span><span class="p">);</span>
+<a id="__codelineno-8-66" name="__codelineno-8-66"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">response2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">authenticateUser</span><span class="p">(</span><span class="s1">'admin'</span><span class="p">,</span><span class="w"> </span><span class="s1">'admin'</span><span class="p">);</span>
+<a id="__codelineno-8-67" name="__codelineno-8-67"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"success ---------------------------------------------"</span><span class="p">);</span>
+<a id="__codelineno-8-68" name="__codelineno-8-68"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"response=</span><span class="si">$</span><span class="n">response2</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-8-69" name="__codelineno-8-69"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-70" name="__codelineno-8-70"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"error ---------------------------------------------"</span><span class="p">);</span>
+<a id="__codelineno-8-71" name="__codelineno-8-71"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"error=</span><span class="si">$</span><span class="n">error</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-8-72" name="__codelineno-8-72"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-8-73" name="__codelineno-8-73"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>Analicemos este código:</p>
+<ul>
+<li>línea 38: [Options(contentType: Headers.formUrlEncodedContentType)]: Dio codifica automáticamente en [x-www-form-urlencoded] el [Map] pasado a [data] en cuanto se especifica este [Content-Type]; el equivalente de [qs.stringify(...)] combinado con el encabezado manual de Axios.</li>
+<li>Esta llamada es una nueva solicitud HTTP que NO comparte automáticamente la cookie de sesión establecida por el servidor en el paso anterior; ni Dio ni axios lo hacen automáticamente del lado de Dart/Node: el seguimiento manual de cookies es el tema del siguiente script.</li>
+</ul>
+<p>El resultado de la ejecución es el siguiente:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span>
+<span class="normal"><a href="#__codelineno-9-4">4</a></span>
+<span class="normal"><a href="#__codelineno-9-5">5</a></span>
+<span class="normal"><a href="#__codelineno-9-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a>init-session action in progress ---------------------------------------------
+<a id="__codelineno-9-2" name="__codelineno-9-2"></a>success ---------------------------------------------
+<a id="__codelineno-9-3" name="__codelineno-9-3"></a>response={action: init-session, status: 700, response: session started with type [json]}
+<a id="__codelineno-9-4" name="__codelineno-9-4"></a>authenticate-user action in progress ---------------------------------------------
+<a id="__codelineno-9-5" name="__codelineno-9-5"></a>success ---------------------------------------------
+<a id="__codelineno-9-6" name="__codelineno-9-6"></a>response={action: authenticate-user, status: 103, response: [no session in progress. Start with action [init-session]]}
+</code></pre></div></td></tr></table></div>
+<h3 id="526-script-dart_dio_03">5.2.6. <span style="color: #1f4d78">script [dart_dio_03]</span></h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-10-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-10-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-10-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-10-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-10-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-10-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-10-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-10-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-10-10">10</a></span>
+<span class="normal"><a href="#__codelineno-10-11">11</a></span>
+<span class="normal"><a href="#__codelineno-10-12">12</a></span>
+<span class="normal"><a href="#__codelineno-10-13">13</a></span>
+<span class="normal"><a href="#__codelineno-10-14">14</a></span>
+<span class="normal"><a href="#__codelineno-10-15">15</a></span>
+<span class="normal"><a href="#__codelineno-10-16">16</a></span>
+<span class="normal"><a href="#__codelineno-10-17">17</a></span>
+<span class="normal"><a href="#__codelineno-10-18">18</a></span>
+<span class="normal"><a href="#__codelineno-10-19">19</a></span>
+<span class="normal"><a href="#__codelineno-10-20">20</a></span>
+<span class="normal"><a href="#__codelineno-10-21">21</a></span>
+<span class="normal"><a href="#__codelineno-10-22">22</a></span>
+<span class="normal"><a href="#__codelineno-10-23">23</a></span>
+<span class="normal"><a href="#__codelineno-10-24">24</a></span>
+<span class="normal"><a href="#__codelineno-10-25">25</a></span>
+<span class="normal"><a href="#__codelineno-10-26">26</a></span>
+<span class="normal"><a href="#__codelineno-10-27">27</a></span>
+<span class="normal"><a href="#__codelineno-10-28">28</a></span>
+<span class="normal"><a href="#__codelineno-10-29">29</a></span>
+<span class="normal"><a href="#__codelineno-10-30">30</a></span>
+<span class="normal"><a href="#__codelineno-10-31">31</a></span>
+<span class="normal"><a href="#__codelineno-10-32">32</a></span>
+<span class="normal"><a href="#__codelineno-10-33">33</a></span>
+<span class="normal"><a href="#__codelineno-10-34">34</a></span>
+<span class="normal"><a href="#__codelineno-10-35">35</a></span>
+<span class="normal"><a href="#__codelineno-10-36">36</a></span>
+<span class="normal"><a href="#__codelineno-10-37">37</a></span>
+<span class="normal"><a href="#__codelineno-10-38">38</a></span>
+<span class="normal"><a href="#__codelineno-10-39">39</a></span>
+<span class="normal"><a href="#__codelineno-10-40">40</a></span>
+<span class="normal"><a href="#__codelineno-10-41">41</a></span>
+<span class="normal"><a href="#__codelineno-10-42">42</a></span>
+<span class="normal"><a href="#__codelineno-10-43">43</a></span>
+<span class="normal"><a href="#__codelineno-10-44">44</a></span>
+<span class="normal"><a href="#__codelineno-10-45">45</a></span>
+<span class="normal"><a href="#__codelineno-10-46">46</a></span>
+<span class="normal"><a href="#__codelineno-10-47">47</a></span>
+<span class="normal"><a href="#__codelineno-10-48">48</a></span>
+<span class="normal"><a href="#__codelineno-10-49">49</a></span>
+<span class="normal"><a href="#__codelineno-10-50">50</a></span>
+<span class="normal"><a href="#__codelineno-10-51">51</a></span>
+<span class="normal"><a href="#__codelineno-10-52">52</a></span>
+<span class="normal"><a href="#__codelineno-10-53">53</a></span>
+<span class="normal"><a href="#__codelineno-10-54">54</a></span>
+<span class="normal"><a href="#__codelineno-10-55">55</a></span>
+<span class="normal"><a href="#__codelineno-10-56">56</a></span>
+<span class="normal"><a href="#__codelineno-10-57">57</a></span>
+<span class="normal"><a href="#__codelineno-10-58">58</a></span>
+<span class="normal"><a href="#__codelineno-10-59">59</a></span>
+<span class="normal"><a href="#__codelineno-10-60">60</a></span>
+<span class="normal"><a href="#__codelineno-10-61">61</a></span>
+<span class="normal"><a href="#__codelineno-10-62">62</a></span>
+<span class="normal"><a href="#__codelineno-10-63">63</a></span>
+<span class="normal"><a href="#__codelineno-10-64">64</a></span>
+<span class="normal"><a href="#__codelineno-10-65">65</a></span>
+<span class="normal"><a href="#__codelineno-10-66">66</a></span>
+<span class="normal"><a href="#__codelineno-10-67">67</a></span>
+<span class="normal"><a href="#__codelineno-10-68">68</a></span>
+<span class="normal"><a href="#__codelineno-10-69">69</a></span>
+<span class="normal"><a href="#__codelineno-10-70">70</a></span>
+<span class="normal"><a href="#__codelineno-10-71">71</a></span>
+<span class="normal"><a href="#__codelineno-10-72">72</a></span>
+<span class="normal"><a href="#__codelineno-10-73">73</a></span>
+<span class="normal"><a href="#__codelineno-10-74">74</a></span>
+<span class="normal"><a href="#__codelineno-10-75">75</a></span>
+<span class="normal"><a href="#__codelineno-10-76">76</a></span>
+<span class="normal"><a href="#__codelineno-10-77">77</a></span>
+<span class="normal"><a href="#__codelineno-10-78">78</a></span>
+<span class="normal"><a href="#__codelineno-10-79">79</a></span>
+<span class="normal"><a href="#__codelineno-10-80">80</a></span>
+<span class="normal"><a href="#__codelineno-10-81">81</a></span>
+<span class="normal"><a href="#__codelineno-10-82">82</a></span>
+<span class="normal"><a href="#__codelineno-10-83">83</a></span>
+<span class="normal"><a href="#__codelineno-10-84">84</a></span>
+<span class="normal"><a href="#__codelineno-10-85">85</a></span>
+<span class="normal"><a href="#__codelineno-10-86">86</a></span>
+<span class="normal"><a href="#__codelineno-10-87">87</a></span>
+<span class="normal"><a href="#__codelineno-10-88">88</a></span>
+<span class="normal"><a href="#__codelineno-10-89">89</a></span>
+<span class="normal"><a href="#__codelineno-10-90">90</a></span>
+<span class="normal"><a href="#__codelineno-10-91">91</a></span>
+<span class="normal"><a href="#__codelineno-10-92">92</a></span>
+<span class="normal"><a href="#__codelineno-10-93">93</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="c1">// dart_dio_03.dart</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="c1">// Porta axios-04.ts: seguimiento manual de la cookie de sesión entre dos solicitudes.</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="k">import</span><span class="w"> </span><span class="s1">'package:dio/dio.dart'</span><span class="p">;</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4"></a>
+<a id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="kd">final</span><span class="w"> </span><span class="n">Dio</span><span class="w"> </span><span class="n">dio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Dio</span><span class="p">(</span><span class="n">BaseOptions</span><span class="p">(</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="w">  </span><span class="nl">baseUrl:</span><span class="w"> </span><span class="s1">'http://localhost:3000/'</span><span class="p">,</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="w">  </span><span class="nl">connectTimeout:</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Duration</span><span class="p">(</span><span class="nl">seconds:</span><span class="w"> </span><span class="m">2</span><span class="p">),</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="w">  </span><span class="nl">receiveTimeout:</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Duration</span><span class="p">(</span><span class="nl">seconds:</span><span class="w"> </span><span class="m">2</span><span class="p">),</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9"></a><span class="w">  </span><span class="c1">// desactivamos la validación por defecto del estado HTTP para poder</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10"></a><span class="w">  </span><span class="c1">// inspeccionar nosotros mismos una respuesta de error (como error.response en</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11"></a><span class="w">  </span><span class="c1">// axios), sin pasar sistemáticamente por un bloque catch</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12"></a><span class="w">  </span><span class="nl">validateStatus:</span><span class="w"> </span><span class="p">(</span><span class="n">_</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13"></a><span class="p">));</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14"></a>
+<a id="__codelineno-10-15" name="__codelineno-10-15"></a><span class="c1">// cookie de sesión</span>
+<a id="__codelineno-10-16" name="__codelineno-10-16"></a><span class="k">const</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="n">sessionCookieName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"connect.sid"</span><span class="p">;</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17"></a><span class="kt">String</span><span class="w"> </span><span class="n">sessionCookie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">''</span><span class="p">;</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18"></a>
+<a id="__codelineno-10-19" name="__codelineno-10-19"></a><span class="n">Future</span><span class="o">&lt;</span><span class="kt">dynamic</span><span class="o">&gt;</span><span class="w"> </span><span class="n">getRemoteData</span><span class="p">(</span><span class="kt">String</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-20" name="__codelineno-10-20"></a><span class="w">  </span><span class="kd">required</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="n">method</span><span class="p">,</span>
+<a id="__codelineno-10-21" name="__codelineno-10-21"></a><span class="w">  </span><span class="n">Map</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="kt">dynamic</span><span class="o">&gt;?</span><span class="w"> </span><span class="n">queryParameters</span><span class="p">,</span>
+<a id="__codelineno-10-22" name="__codelineno-10-22"></a><span class="w">  </span><span class="kt">Object</span><span class="o">?</span><span class="w"> </span><span class="n">data</span><span class="p">,</span>
+<a id="__codelineno-10-23" name="__codelineno-10-23"></a><span class="w">  </span><span class="n">Options</span><span class="o">?</span><span class="w"> </span><span class="n">options</span><span class="p">,</span>
+<a id="__codelineno-10-24" name="__codelineno-10-24"></a><span class="p">})</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-25" name="__codelineno-10-25"></a><span class="w">  </span><span class="c1">// para la cookie de sesión - la añadimos nosotros mismos a los encabezados de</span>
+<a id="__codelineno-10-26" name="__codelineno-10-26"></a><span class="w">  </span><span class="c1">// cada solicitud, exactamente como axios-04.ts</span>
+<a id="__codelineno-10-27" name="__codelineno-10-27"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">options</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="n">Options</span><span class="p">(</span><span class="nl">method:</span><span class="w"> </span><span class="n">method</span><span class="p">)).</span><span class="n">copyWith</span><span class="p">(</span>
+<a id="__codelineno-10-28" name="__codelineno-10-28"></a><span class="w">    </span><span class="nl">method:</span><span class="w"> </span><span class="n">method</span><span class="p">,</span>
+<a id="__codelineno-10-29" name="__codelineno-10-29"></a><span class="w">    </span><span class="nl">headers:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-30" name="__codelineno-10-30"></a><span class="w">      </span><span class="p">...</span><span class="o">?</span><span class="n">options</span><span class="o">?</span><span class="p">.</span><span class="n">headers</span><span class="p">,</span>
+<a id="__codelineno-10-31" name="__codelineno-10-31"></a><span class="w">      </span><span class="s1">'Cookie'</span><span class="o">:</span><span class="w"> </span><span class="n">sessionCookie</span><span class="p">,</span>
+<a id="__codelineno-10-32" name="__codelineno-10-32"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-10-33" name="__codelineno-10-33"></a><span class="w">  </span><span class="p">);</span>
+<a id="__codelineno-10-34" name="__codelineno-10-34"></a><span class="w">  </span><span class="c1">// ejecución de la solicitud HTTP</span>
+<a id="__codelineno-10-35" name="__codelineno-10-35"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">dio</span><span class="p">.</span><span class="n">request</span><span class="p">(</span>
+<a id="__codelineno-10-36" name="__codelineno-10-36"></a><span class="w">    </span><span class="n">path</span><span class="p">,</span>
+<a id="__codelineno-10-37" name="__codelineno-10-37"></a><span class="w">    </span><span class="nl">queryParameters:</span><span class="w"> </span><span class="n">queryParameters</span><span class="p">,</span>
+<a id="__codelineno-10-38" name="__codelineno-10-38"></a><span class="w">    </span><span class="nl">data:</span><span class="w"> </span><span class="n">data</span><span class="p">,</span>
+<a id="__codelineno-10-39" name="__codelineno-10-39"></a><span class="w">    </span><span class="nl">options:</span><span class="w"> </span><span class="n">opts</span><span class="p">,</span>
+<a id="__codelineno-10-40" name="__codelineno-10-40"></a><span class="w">  </span><span class="p">);</span>
+<a id="__codelineno-10-41" name="__codelineno-10-41"></a><span class="w">  </span><span class="c1">// recuperamos la cookie de sesión si existe - response.headers es un</span>
+<a id="__codelineno-10-42" name="__codelineno-10-42"></a><span class="w">  </span><span class="c1">// objeto [Headers] de Dio (no un simple Map como response.headers en</span>
+<a id="__codelineno-10-43" name="__codelineno-10-43"></a><span class="w">  </span><span class="c1">// axios); response.headers['set-cookie'] devuelve una List&lt;String&gt;?</span>
+<a id="__codelineno-10-44" name="__codelineno-10-44"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">setCookie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">'set-cookie'</span><span class="p">];</span>
+<a id="__codelineno-10-45" name="__codelineno-10-45"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">setCookie</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-46" name="__codelineno-10-46"></a><span class="w">    </span><span class="c1">// buscamos la cookie de sesión en esta lista</span>
+<a id="__codelineno-10-47" name="__codelineno-10-47"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">final</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">setCookie</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-48" name="__codelineno-10-48"></a><span class="w">      </span><span class="kd">final</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RegExp</span><span class="p">(</span><span class="s1">'^(</span><span class="si">$</span><span class="n">sessionCookieName</span><span class="s1">.+?);'</span><span class="p">).</span><span class="n">firstMatch</span><span class="p">(</span><span class="n">header</span><span class="p">);</span>
+<a id="__codelineno-10-49" name="__codelineno-10-49"></a><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-50" name="__codelineno-10-50"></a><span class="w">        </span><span class="c1">// almacenamos la cookie de sesión</span>
+<a id="__codelineno-10-51" name="__codelineno-10-51"></a><span class="w">        </span><span class="n">sessionCookie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">group</span><span class="p">(</span><span class="m">1</span><span class="p">)</span><span class="o">!</span><span class="p">;</span>
+<a id="__codelineno-10-52" name="__codelineno-10-52"></a><span class="w">        </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-10-53" name="__codelineno-10-53"></a><span class="w">      </span><span class="p">}</span>
+<a id="__codelineno-10-54" name="__codelineno-10-54"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-10-55" name="__codelineno-10-55"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-10-56" name="__codelineno-10-56"></a><span class="w">  </span><span class="c1">// la respuesta del servidor está en [response.data]</span>
+<a id="__codelineno-10-57" name="__codelineno-10-57"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="n">data</span><span class="p">;</span>
+<a id="__codelineno-10-58" name="__codelineno-10-58"></a><span class="p">}</span>
+<a id="__codelineno-10-59" name="__codelineno-10-59"></a>
+<a id="__codelineno-10-60" name="__codelineno-10-60"></a><span class="n">Future</span><span class="o">&lt;</span><span class="kt">dynamic</span><span class="o">&gt;</span><span class="w"> </span><span class="n">initSession</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-61" name="__codelineno-10-61"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">getRemoteData</span><span class="p">(</span>
+<a id="__codelineno-10-62" name="__codelineno-10-62"></a><span class="w">    </span><span class="s1">'main.php'</span><span class="p">,</span>
+<a id="__codelineno-10-63" name="__codelineno-10-63"></a><span class="w">    </span><span class="nl">method:</span><span class="w"> </span><span class="s1">'GET'</span><span class="p">,</span>
+<a id="__codelineno-10-64" name="__codelineno-10-64"></a><span class="w">    </span><span class="nl">queryParameters:</span><span class="w"> </span><span class="p">{</span><span class="s1">'action'</span><span class="o">:</span><span class="w"> </span><span class="s1">'init-session'</span><span class="p">,</span><span class="w"> </span><span class="s1">'type'</span><span class="o">:</span><span class="w"> </span><span class="s1">'json'</span><span class="p">},</span>
+<a id="__codelineno-10-65" name="__codelineno-10-65"></a><span class="w">  </span><span class="p">);</span>
+<a id="__codelineno-10-66" name="__codelineno-10-66"></a><span class="p">}</span>
+<a id="__codelineno-10-67" name="__codelineno-10-67"></a>
+<a id="__codelineno-10-68" name="__codelineno-10-68"></a><span class="n">Future</span><span class="o">&lt;</span><span class="kt">dynamic</span><span class="o">&gt;</span><span class="w"> </span><span class="n">authenticateUser</span><span class="p">(</span><span class="kt">String</span><span class="w"> </span><span class="n">user</span><span class="p">,</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="n">password</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-69" name="__codelineno-10-69"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">getRemoteData</span><span class="p">(</span>
+<a id="__codelineno-10-70" name="__codelineno-10-70"></a><span class="w">    </span><span class="s1">'main.php'</span><span class="p">,</span>
+<a id="__codelineno-10-71" name="__codelineno-10-71"></a><span class="w">    </span><span class="nl">method:</span><span class="w"> </span><span class="s1">'POST'</span><span class="p">,</span>
+<a id="__codelineno-10-72" name="__codelineno-10-72"></a><span class="w">    </span><span class="nl">queryParameters:</span><span class="w"> </span><span class="p">{</span><span class="s1">'action'</span><span class="o">:</span><span class="w"> </span><span class="s1">'authenticate-user'</span><span class="p">},</span>
+<a id="__codelineno-10-73" name="__codelineno-10-73"></a><span class="w">    </span><span class="nl">data:</span><span class="w"> </span><span class="p">{</span><span class="s1">'user'</span><span class="o">:</span><span class="w"> </span><span class="n">user</span><span class="p">,</span><span class="w"> </span><span class="s1">'password'</span><span class="o">:</span><span class="w"> </span><span class="n">password</span><span class="p">},</span>
+<a id="__codelineno-10-74" name="__codelineno-10-74"></a><span class="w">    </span><span class="nl">options:</span><span class="w"> </span><span class="n">Options</span><span class="p">(</span><span class="nl">contentType:</span><span class="w"> </span><span class="n">Headers</span><span class="p">.</span><span class="n">formUrlEncodedContentType</span><span class="p">),</span>
+<a id="__codelineno-10-75" name="__codelineno-10-75"></a><span class="w">  </span><span class="p">);</span>
+<a id="__codelineno-10-76" name="__codelineno-10-76"></a><span class="p">}</span>
+<a id="__codelineno-10-77" name="__codelineno-10-77"></a>
+<a id="__codelineno-10-78" name="__codelineno-10-78"></a><span class="c1">// la función main ejecuta las funciones asíncronas una por una</span>
+<a id="__codelineno-10-79" name="__codelineno-10-79"></a><span class="n">Future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-80" name="__codelineno-10-80"></a><span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-81" name="__codelineno-10-81"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"init-session action in progress ----------------"</span><span class="p">);</span>
+<a id="__codelineno-10-82" name="__codelineno-10-82"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">response1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">initSession</span><span class="p">();</span>
+<a id="__codelineno-10-83" name="__codelineno-10-83"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"success --------------------------"</span><span class="p">);</span>
+<a id="__codelineno-10-84" name="__codelineno-10-84"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"response=</span><span class="si">$</span><span class="n">response1</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-10-85" name="__codelineno-10-85"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"authenticate-user action in progress ---------"</span><span class="p">);</span>
+<a id="__codelineno-10-86" name="__codelineno-10-86"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">response2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">authenticateUser</span><span class="p">(</span><span class="s1">'admin'</span><span class="p">,</span><span class="w"> </span><span class="s1">'admin'</span><span class="p">);</span>
+<a id="__codelineno-10-87" name="__codelineno-10-87"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"success -------------------"</span><span class="p">);</span>
+<a id="__codelineno-10-88" name="__codelineno-10-88"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"response=</span><span class="si">$</span><span class="n">response2</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-10-89" name="__codelineno-10-89"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-90" name="__codelineno-10-90"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"error ------------------"</span><span class="p">);</span>
+<a id="__codelineno-10-91" name="__codelineno-10-91"></a><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s2">"error=</span><span class="si">$</span><span class="n">error</span><span class="s2">"</span><span class="p">);</span>
+<a id="__codelineno-10-92" name="__codelineno-10-92"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-10-93" name="__codelineno-10-93"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>Analicemos este código:</p>
+<ul>
+<li>Línea 12: [validateStatus: (_) =&gt; true]: desactiva la validación predeterminada del estado HTTP, de modo que pueda inspeccionar usted mismo una respuesta de error sin tener que pasar siempre por un bloque [catch]; la misma elección que en axios-04.ts.</li>
+<li>[response.headers[&#x27;set-cookie&#x27;]] devuelve una [List&lt;String&gt;?]: a diferencia de [response.headers] en Axios (un simple objeto), [response.headers] de Dio es un objeto [Headers] dedicado, cuya indexación siempre devuelve una lista.</li>
+<li>Línea 48: [RegExp(&#x27;^($sessionCookieName.+?);&#x27;).firstMatch(header)]: la cookie de sesión se recupera y se almacena manualmente, y luego se reinserta en el encabezado [Cookie] de cada solicitud posterior; exactamente el mismo patrón que en axios-04.ts, adaptado a la API de Dio.</li>
+</ul>
+<p>El resultado de la ejecución es el siguiente:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
+<span class="normal"><a href="#__codelineno-11-2">2</a></span>
+<span class="normal"><a href="#__codelineno-11-3">3</a></span>
+<span class="normal"><a href="#__codelineno-11-4">4</a></span>
+<span class="normal"><a href="#__codelineno-11-5">5</a></span>
+<span class="normal"><a href="#__codelineno-11-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a>init-session action in progress ----------------
+<a id="__codelineno-11-2" name="__codelineno-11-2"></a>success --------------------------
+<a id="__codelineno-11-3" name="__codelineno-11-3"></a>response={action: init-session, status: 700, response: session started with type [json]}
+<a id="__codelineno-11-4" name="__codelineno-11-4"></a>authenticate-user action in progress ---------
+<a id="__codelineno-11-5" name="__codelineno-11-5"></a>success -------------------
+<a id="__codelineno-11-6" name="__codelineno-11-6"></a>response={action: authenticate-user, status: 200, response: Authentication successful [admin, admin]}
+</code></pre></div></td></tr></table></div>
+<h3 id="527-conclusion">5.2.7. <span style="color: #1f4d78">Conclusión</span></h3>
+<p>[package:http] y [package:dio] cubren en conjunto todo el alcance de [fetch] y [axios]: una API de bajo nivel cercana al protocolo y una API rica en funcionalidades con configuración global y manejo de errores mejorado. Las diferencias específicas ([timeout] genérico por [Future] y no por solicitud, falta de cancelación individual, falta de gestión automática de cookies) se verán reflejadas, de forma concreta, en los clientes HTTP del capítulo siguiente.</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner">
+
+      <div>
+        <a href="https://stahe.github.io" target="_blank">
+          https://stahe.github.io
+        </a>
+        <br>
+        Este tutorial, escrito por la IA <strong>Claude</strong> de Anthropic y revisado por <strong>Serge Tahé</strong>, se pone a disposición del público bajo los términos de la
+        <em>licencia Creative Commons Atribución – No Comercial –
+        Compartir Igual 3.0 No adaptada</em>.
+
+      </div>
+
+    </div>
+  </div>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.indexes", "navigation.expand", "toc.integrate", "navigation.top"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="javascripts/focus.js"></script>
+      
+    
+  </body>
+</html>
